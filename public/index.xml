@@ -87,7 +87,7 @@ summary(reg1)&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
-      <title>US Demographics with the GSS Dataset</title>
+      <title>Exploring US Demographics with data from the General Social Survey</title>
       <link>/post/gss-data-project/</link>
       <pubDate>Tue, 04 Dec 2018 00:00:00 +0000</pubDate>
       
@@ -317,7 +317,7 @@ print(mean_tv)&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
-      <title>Exploratory Data Analysis</title>
+      <title>Exploratory Data Analysis with Diamonds</title>
       <link>/post/eda-project/</link>
       <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -325,11 +325,9 @@ print(mean_tv)&lt;/code&gt;&lt;/pre&gt;
       <description>
 
 
-&lt;div id=&#34;colin-cozad&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Colin Cozad&lt;/h3&gt;
-&lt;/div&gt;
-&lt;div id=&#34;exploratory-data-analysis-project-with-the-diamonds-datasets&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Exploratory Data Analysis Project with the Diamonds Datasets&lt;/h1&gt;
+&lt;div id=&#34;exploratory-data-analysis-with-the-diamonds-dataset&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Exploratory Data Analysis with the Diamonds Dataset&lt;/h1&gt;
+&lt;p&gt;For this post I decided to walk through the steps of exploratory data analysis using the diamonds dataset that come with base R.&lt;/p&gt;
 &lt;div id=&#34;plotting-the-data&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Plotting the Data&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data(&amp;#39;diamonds&amp;#39;) #Loading the dataset

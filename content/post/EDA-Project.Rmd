@@ -1,5 +1,5 @@
 ---
-title: "Exploratory Data Analysis"
+title: "Exploratory Data Analysis with Diamonds"
 author: "Colin Cozad"
 date: 2018-10-04
 categories: ["Colin Cozad"]
@@ -14,9 +14,9 @@ library(dplyr)
 library(ggplot2)
 ```
 
-### Colin Cozad
+#Exploratory Data Analysis with the Diamonds Dataset
 
-#Exploratory Data Analysis Project with the Diamonds Datasets
+For this post I decided to walk through the steps of exploratory data analysis using the diamonds dataset that come with base R.
 
 ## Plotting the Data
 

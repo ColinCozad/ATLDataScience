@@ -1,5 +1,5 @@
 ---
-title: "US Demographics with the GSS Dataset"
+title: "Exploring US Demographics with data from the General Social Survey"
 author: "Colin Cozad"
 date: '2018-12-04'
 categories: ["Colin Cozad"]
