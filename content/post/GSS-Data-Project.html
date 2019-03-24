@@ -1,0 +1,228 @@
+---
+title: "US Demographics with the GSS Dataset"
+author: "Colin Cozad"
+date: '2018-12-04'
+categories: ["Colin Cozad"]
+tags: ["R Markdown", "ggplot2","tidyverse","Regression"]
+---
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<div id="research-idea" class="section level3">
+<h3>Research Idea</h3>
+<p>For this project I will research the racial differences and disparities in American economics, politics, and culture. I will use statistical analysis to look for correlations in these differences. The independent variable will be race and the dependent variables will be family income, political party, and average amount of TV somebody watches.</p>
+</div>
+<div id="the-gss-dataset" class="section level3">
+<h3>The GSS Dataset</h3>
+<p>The dataset is from the <a href="https://gssdataexplorer.norc.org/">General Social Survey (GSS)</a>. It is a national survey conducted by NORC at the University of Chicago, to gather data on the complexity of American life. This data is adequate because it collects survey information about peoples preferences and lives. Thiss dataset holds information about a respondent’s age, years of education, race, family income, political party, and number of hours of TV they watch per week.</p>
+</div>
+<div id="loading-and-cleaning-the-dataset" class="section level3">
+<h3>Loading and Cleaning the Dataset</h3>
+<pre class="r"><code>GSS &lt;- read_excel(&quot;~/Dropbox (GPF)/School/Fall 18/Econ 220 Prob &amp; Stats for Economist/Lab/GSS.xls&quot;)
+GSS$educ &lt;- as.numeric(GSS$educ) #Converting this to a numeric vector
+GSS$age &lt;- as.numeric(GSS$age) #Converting this to a numeric vector
+GSS$tvhours &lt;- as.numeric(GSS$tvhours) #Converting this to a numeric vector
+str(GSS)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    2869 obs. of  7 variables:
+##  $ year   : num  2016 2016 2016 2016 2016 ...
+##  $ age    : num  47 61 72 43 55 53 50 23 45 71 ...
+##  $ educ   : num  16 12 16 12 18 14 14 11 12 14 ...
+##  $ race   : chr  &quot;White&quot; &quot;White&quot; &quot;White&quot; &quot;White&quot; ...
+##  $ partyid: chr  &quot;Independent&quot; &quot;Ind,near dem&quot; &quot;Not str republican&quot; &quot;Not str republican&quot; ...
+##  $ tvhours: num  1 1 NA 1 NA 1 2 NA 2 NA ...
+##  $ coninc : num  163844 39930 59895 163844 163844 ...</code></pre>
+<pre class="r"><code>kable(summary(GSS), digits=2, caption=&quot;Social Survey Data&quot;) #Using knitr package to create a table</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>Social Survey Data</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">year</th>
+<th align="center">age</th>
+<th align="center">educ</th>
+<th align="center">race</th>
+<th align="center">partyid</th>
+<th align="center">tvhours</th>
+<th align="center">coninc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td align="center">Min. :2016</td>
+<td align="center">Min. :18.00</td>
+<td align="center">Min. : 0.00</td>
+<td align="center">Length:2869</td>
+<td align="center">Length:2869</td>
+<td align="center">Min. : 0.000</td>
+<td align="center">Min. : 0</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">1st Qu.:2016</td>
+<td align="center">1st Qu.:34.00</td>
+<td align="center">1st Qu.:12.00</td>
+<td align="center">Class :character</td>
+<td align="center">Class :character</td>
+<td align="center">1st Qu.: 1.000</td>
+<td align="center">1st Qu.: 13612</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">Median :2016</td>
+<td align="center">Median :49.00</td>
+<td align="center">Median :13.00</td>
+<td align="center">Mode :character</td>
+<td align="center">Mode :character</td>
+<td align="center">Median : 2.000</td>
+<td align="center">Median : 32670</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Mean :2016</td>
+<td align="center">Mean :48.85</td>
+<td align="center">Mean :13.74</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">Mean : 3.031</td>
+<td align="center">Mean : 43493</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">3rd Qu.:2016</td>
+<td align="center">3rd Qu.:62.00</td>
+<td align="center">3rd Qu.:16.00</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">3rd Qu.: 4.000</td>
+<td align="center">3rd Qu.: 59895</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Max. :2016</td>
+<td align="center">Max. :88.00</td>
+<td align="center">Max. :20.00</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">Max. :24.000</td>
+<td align="center">Max. :163844</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">NA’s :2</td>
+<td align="center">NA’s :34</td>
+<td align="center">NA’s :11</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA’s :986</td>
+<td align="center">NA’s :2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="graphs" class="section level2">
+<h2>Graphs</h2>
+<div id="graphing-income-by-race" class="section level3">
+<h3>Graphing Income by Race</h3>
+<pre class="r"><code>GSS &lt;- GSS[ which(!is.na(GSS$race) &amp; !is.na(GSS$coninc)), ] #Removing NA values
+
+ggplot(data =GSS, aes(x=race, y=coninc)) + #Choosing variables race and family income
+  geom_boxplot() +
+  ggtitle(&#39;Race and Income Boxplot&#39;) + #Title of the plot
+  ylab(&quot;Family Income $&quot;) + xlab(&quot;Race&quot;)+ #Labels for the axis
+  theme(plot.title = element_text(hjust = 0.5)) #Centering the title</code></pre>
+<p><img src="/post/GSS-Data-Project_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>This boxplot displays the distribution of income by race. This has profuond insights, such as the fact that Black people have the lowest mean income, with “other” having the middle average, and White people having the highest income.</p>
+</div>
+<div id="graphing-race-age-and-tv-hours" class="section level3">
+<h3>Graphing Race, Age, and TV Hours</h3>
+<pre class="r"><code>gss_cat %&gt;%
+  group_by(race, age) %&gt;%
+  summarise(meantv=mean(tvhours, na.rm = T)) %&gt;% 
+  #Using dplyr to create a mean TV hours variable and summarise it by race and age
+  ggplot(aes(x=age, y=meantv,color=race))+ #GGplot x-axis is age, y-axis is Mean TV Hours, and Color is race
+  geom_point() + #Speceifying a scatterplot
+  geom_smooth(method = &quot;lm&quot;)+ #Affs a trend line on the plot
+  ylab(&quot;Hours of TV per Week&quot;) + xlab(&quot;Age&quot;)+ #Labels for the axis
+  ggtitle(&quot;Age, Hours of TV, and Race Scatterplot&quot;)+ #Title of the plot
+  theme(plot.title = element_text(hjust = 0.5)) #Centering the title</code></pre>
+<p><img src="/post/GSS-Data-Project_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>The graph shows that for White, Black, and other races the hours of TV watched per week rises as that population gets older. The three seperate trend lines also reveal racial differences. Whites and others watch similiar amounts of TV especially as they get older, Black people watched signifcantly more TV on average than the other races.</p>
+</div>
+<div id="graphing-race-and-political-party" class="section level3">
+<h3>Graphing Race and Political Party</h3>
+<pre class="r"><code>GSS$partyid&lt;-ifelse(GSS$partyid == &quot;Strong republican&quot;, &quot;Republican&quot;,ifelse(GSS$partyid == &quot;Not str republican&quot;, &quot;Republican&quot;, ifelse(GSS$partyid == &quot;Ind, near rep&quot;, &quot;Republican&quot;, ifelse(GSS$partyid == &quot;Ind, near dem&quot;, &quot;Democrat&quot;, ifelse(GSS$partyid == &quot;Not str democrat&quot;, &quot;Democrat&quot;,ifelse(GSS$partyid == &quot;Strong Democrat&quot;, &quot;Democrat&quot;, &quot;Independent&quot; )))))) #Using an ifelse ladder to combine political party identification into Democrat, Repubican, Independent
+
+
+ggplot(GSS, aes(partyid, fill = race)) + #Selecting political party as variable and race as group value
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+  #This line tilts the axis names so they are readable
+  geom_bar(position = &quot;dodge&quot;)+ #This splits the bar chart by race instead of stacking the bars
+  geom_text(aes(label=..count..),stat=&quot;count&quot;,position=position_dodge(width=0.9), vjust=-0.25)+ #Adds labels to each bar
+   ylab(&quot;Count&quot;) + xlab(&quot;Political Party&quot;)+ #Labels for the axis
+  ggtitle(&quot;Race and Political Party Bar Chart&quot;)+ #Title of the plot
+  theme(plot.title = element_text(hjust = 0.5)) #Centering the title</code></pre>
+<p><img src="/post/GSS-Data-Project_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>This graph reveals that Democrats are the most racially diverse political group, while Independent is the most popular political category.</p>
+</div>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<div id="income" class="section level3">
+<h3>Income</h3>
+<pre class="r"><code>mean_inc &lt;- aggregate(coninc~race, data=GSS, mean) #Use aggregate function to take mean of family income for each race
+print(mean_inc)</code></pre>
+<pre><code>##    race   coninc
+## 1 Black 28445.62
+## 2 Other 38010.33
+## 3 White 47727.90</code></pre>
+<p>This information shows that the mean income for the White race is 1.7 times more than the mean income for the Black race, clearly there is a racial income disparity in the United States.</p>
+</div>
+<div id="tv-hours" class="section level3">
+<h3>TV Hours</h3>
+<p>One of the most evident correlations was between TV Hours and Age. This relationship can further be explored by running a regression on the two variables.</p>
+<pre class="r"><code>tvhours_reg&lt;-lm(tvhours~age + coninc, data=GSS) #Running a linear regression on TV hours and Age
+print(tvhours_reg) #Pritning results of the regression</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = tvhours ~ age + coninc, data = GSS)
+## 
+## Coefficients:
+## (Intercept)          age       coninc  
+##   1.647e+00    4.067e-02   -1.371e-05</code></pre>
+<pre class="r"><code>summary(tvhours_reg) #Summarising the regression</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = tvhours ~ age + coninc, data = GSS)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.9414 -1.4945 -0.5185  0.8314 20.3600 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.647e+00  1.929e-01   8.541   &lt;2e-16 ***
+## age          4.067e-02  3.485e-03  11.669   &lt;2e-16 ***
+## coninc      -1.371e-05  1.480e-06  -9.267   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.665 on 1858 degrees of freedom
+##   (1006 observations deleted due to missingness)
+## Multiple R-squared:  0.1079, Adjusted R-squared:  0.1069 
+## F-statistic: 112.3 on 2 and 1858 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>mean_tv &lt;- aggregate(tvhours~race, data=GSS, mean) #Use Aggregate to find mean TV Hours per Race
+print(mean_tv)</code></pre>
+<pre><code>##    race  tvhours
+## 1 Black 4.046875
+## 2 Other 2.697297
+## 3 White 2.840348</code></pre>
+<p>The regression allows us to see the relationship between age and hours of TV one watches. The regression shows that an increase in age by 1 year results in a 0.04 increase in the hours of TV someone watches. An increase in income by 1,000 is associated with 0.015 decrease in the amount of TV one watches. However; the R-squared value shows that these variables only explain 10% of the data observations. From this data we can also compare the mean hours of TV each race watches.</p>
+</div>
+</div>
+<div id="inferences" class="section level2">
+<h2>Inferences</h2>
+<p>From the social survey data one can analyze racial differences within the United States. A boxplot was used to compare the Family Income averages across races. This revealed that black people have the lowest average wages and speaks to a larger culture of income inequality within the United States. These economic differences effected the racial makeup of America’s political parties. Democrats were the most racially diverse, while Independent was the most popular. After looking at economic and political differences we anlayzed the niche cultural difference of hours of TV watched. Across all races hours of TV increased with age but when split by race it was clear that blakc people watch more TV than the other races. This anlaysis helps understand how one’s race is likely to correlate with economic, political, and cultural differences in the United States.</p>
+</div>

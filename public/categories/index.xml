@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on E&amp;C Data Science Blog</title>
+    <link>/categories/</link>
+    <description>Recent content in Categories on E&amp;C Data Science Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Colin Cozad</title>
+      <link>/categories/colin-cozad/</link>
+      <pubDate>Sat, 16 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/colin-cozad/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Elijah Sullivan</title>
+      <link>/categories/elijah-sullivan/</link>
+      <pubDate>Sat, 16 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/elijah-sullivan/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>E&amp;C Data Science Blog on E&amp;C Data Science Blog</title>
+    <link>/</link>
+    <description>Recent content in E&amp;C Data Science Blog on E&amp;C Data Science Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 16 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Do you want to play a game?</title>
+      <link>/post/do-you-want-to-play-a-game/</link>
+      <pubDate>Sat, 16 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/do-you-want-to-play-a-game/</guid>
+      <description>
+
+
+&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;For our first joint blog post we decided to look at this week’s #TidyTuesday dataset. Tidy Tuesday is a weekly data project aimed at the R for Data Science community. Every week a raw dataset is posted so that users can apply their R skills, get feedbak, explore other’s work, and connect with the greater #RStats community.&lt;/p&gt;
+&lt;p&gt;This week’s data is about Board Games! The data comes from the &lt;a href=&#34;https://boardgamegeek.com/&#34;&gt;Board Game Geek&lt;/a&gt; database.&lt;/p&gt;
+&lt;p&gt;The first step is to download the dataset from the &lt;a href=&#34;https://github.com/rfordatascience/tidytuesday&#34;&gt;TidyTuesday Repository&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;board_games &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-03-12/board_games.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;building-a-linear-model&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Building a Linear Model&lt;/h2&gt;
+&lt;p&gt;For this dataset we want to see if we can build a model to predict how sucessful a game’s rating might be. We begin by looking at the distribution of the average rating variable.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;board_games %&amp;gt;%
+  ggplot(aes(average_rating))+
+  geom_histogram()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-03-16-do-you-want-to-play-a-game_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Average rating has an almost normal distribution which is good because it means we can apply a linear model to predict rating.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;reg1&amp;lt;-lm((average_rating) ~ log2(max_players + 1) +log2(max_playtime+1) + year_published, data = board_games) 
+summary(reg1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = (average_rating) ~ log2(max_players + 1) + log2(max_playtime + 
+##     1) + year_published, data = board_games)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.9862 -0.4437  0.0230  0.4800  2.8934 
+## 
+## Coefficients:
+##                          Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)            -4.670e+01  1.214e+00  -38.46   &amp;lt;2e-16 ***
+## log2(max_players + 1)  -1.951e-01  1.031e-02  -18.92   &amp;lt;2e-16 ***
+## log2(max_playtime + 1)  1.664e-01  4.538e-03   36.68   &amp;lt;2e-16 ***
+## year_published          2.627e-02  6.049e-04   43.44   &amp;lt;2e-16 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 0.748 on 10528 degrees of freedom
+## Multiple R-squared:  0.2266, Adjusted R-squared:  0.2264 
+## F-statistic:  1028 on 3 and 10528 DF,  p-value: &amp;lt; 2.2e-16&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this model we infer how well the maximum number of players, the maximum of amount of playtime, and the year that the game was published predicts the rating. Everytime you double maximum number of players expect average rating to go down by 0.195 on average. Doubling max playtime will leads to a 0.166 increase in the average rating. &lt;span class=&#34;math inline&#34;&gt;\(R^2\)&lt;/span&gt; value shows that the model explains 22.6% of the data. And all the varibales are statstically significant.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;tidyverse&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Tidyverse&lt;/h2&gt;
+&lt;p&gt;We noticed that the Category variable contains many values seperated by comma. We decided to use the tidyverse “separate_rows” function to seperate this variable into multiple rows, this will make it easier to analyze.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;categorical_variables&amp;lt;- board_games %&amp;gt;% 
+  select(game_id, category) %&amp;gt;% 
+  gather(type, value, -game_id) %&amp;gt;%
+  filter(!is.na(value)) %&amp;gt;%
+  separate_rows(value, sep = &amp;quot;,&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ggplot-visualization&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;GGplot Visualization&lt;/h2&gt;
+&lt;p&gt;For this visualization we want to make a boxplot of average rating by category. This will help us understand which categories correlate with higher ratings.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;board_games %&amp;gt;% 
+  inner_join(categorical_variables, by = c(&amp;quot;game_id&amp;quot;)) %&amp;gt;%
+  filter(type == &amp;quot;category&amp;quot;) %&amp;gt;%
+  mutate(value = fct_lump(value, 15),
+         value = fct_reorder(value, average_rating)) %&amp;gt;%
+  ggplot(aes(value, average_rating)) +
+  geom_boxplot()+
+  coord_flip()+
+   ylim(3,9) +
+  geom_hline(yintercept=6.37, linetype=&amp;quot;dashed&amp;quot;, color = &amp;quot;red&amp;quot;)+ #Adding a vertical line at the mean
+  labs(y=&amp;quot;Average Rating&amp;quot;, x = &amp;quot;Board Game Category&amp;quot;, title = &amp;quot;Boxplot of Game Category and Rating&amp;quot;, caption= &amp;quot;The red dashed line represents the mean Average Rating&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-03-16-do-you-want-to-play-a-game_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>US Demographics with the GSS Dataset</title>
+      <link>/post/gss-data-project/</link>
+      <pubDate>Tue, 04 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/gss-data-project/</guid>
+      <description>
+
+
+&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;div id=&#34;research-idea&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Research Idea&lt;/h3&gt;
+&lt;p&gt;For this project I will research the racial differences and disparities in American economics, politics, and culture. I will use statistical analysis to look for correlations in these differences. The independent variable will be race and the dependent variables will be family income, political party, and average amount of TV somebody watches.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-gss-dataset&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;The GSS Dataset&lt;/h3&gt;
+&lt;p&gt;The dataset is from the &lt;a href=&#34;https://gssdataexplorer.norc.org/&#34;&gt;General Social Survey (GSS)&lt;/a&gt;. It is a national survey conducted by NORC at the University of Chicago, to gather data on the complexity of American life. This data is adequate because it collects survey information about peoples preferences and lives. Thiss dataset holds information about a respondent’s age, years of education, race, family income, political party, and number of hours of TV they watch per week.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;loading-and-cleaning-the-dataset&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Loading and Cleaning the Dataset&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;GSS &amp;lt;- read_excel(&amp;quot;~/Dropbox (GPF)/School/Fall 18/Econ 220 Prob &amp;amp; Stats for Economist/Lab/GSS.xls&amp;quot;)
+GSS$educ &amp;lt;- as.numeric(GSS$educ) #Converting this to a numeric vector
+GSS$age &amp;lt;- as.numeric(GSS$age) #Converting this to a numeric vector
+GSS$tvhours &amp;lt;- as.numeric(GSS$tvhours) #Converting this to a numeric vector
+str(GSS)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Classes &amp;#39;tbl_df&amp;#39;, &amp;#39;tbl&amp;#39; and &amp;#39;data.frame&amp;#39;:    2869 obs. of  7 variables:
+##  $ year   : num  2016 2016 2016 2016 2016 ...
+##  $ age    : num  47 61 72 43 55 53 50 23 45 71 ...
+##  $ educ   : num  16 12 16 12 18 14 14 11 12 14 ...
+##  $ race   : chr  &amp;quot;White&amp;quot; &amp;quot;White&amp;quot; &amp;quot;White&amp;quot; &amp;quot;White&amp;quot; ...
+##  $ partyid: chr  &amp;quot;Independent&amp;quot; &amp;quot;Ind,near dem&amp;quot; &amp;quot;Not str republican&amp;quot; &amp;quot;Not str republican&amp;quot; ...
+##  $ tvhours: num  1 1 NA 1 NA 1 2 NA 2 NA ...
+##  $ coninc : num  163844 39930 59895 163844 163844 ...&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kable(summary(GSS), digits=2, caption=&amp;quot;Social Survey Data&amp;quot;) #Using knitr package to create a table&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;caption&gt;&lt;span id=&#34;tab:unnamed-chunk-1&#34;&gt;Table 1: &lt;/span&gt;Social Survey Data&lt;/caption&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;year&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;age&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;educ&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;race&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;partyid&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;tvhours&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;coninc&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Min. :2016&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Min. :18.00&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Min. : 0.00&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Length:2869&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Length:2869&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Min. : 0.000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Min. : 0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1st Qu.:2016&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1st Qu.:34.00&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1st Qu.:12.00&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Class :character&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Class :character&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1st Qu.: 1.000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1st Qu.: 13612&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Median :2016&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Median :49.00&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Median :13.00&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Mode :character&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Mode :character&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Median : 2.000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Median : 32670&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Mean :2016&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Mean :48.85&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Mean :13.74&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Mean : 3.031&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Mean : 43493&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;3rd Qu.:2016&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;3rd Qu.:62.00&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;3rd Qu.:16.00&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;3rd Qu.: 4.000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;3rd Qu.: 59895&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Max. :2016&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Max. :88.00&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Max. :20.00&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Max. :24.000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;Max. :163844&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA’s :2&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA’s :34&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA’s :11&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA’s :986&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;NA’s :2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;graphs&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Graphs&lt;/h2&gt;
+&lt;div id=&#34;graphing-income-by-race&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Graphing Income by Race&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;GSS &amp;lt;- GSS[ which(!is.na(GSS$race) &amp;amp; !is.na(GSS$coninc)), ] #Removing NA values
+
+ggplot(data =GSS, aes(x=race, y=coninc)) + #Choosing variables race and family income
+  geom_boxplot() +
+  ggtitle(&amp;#39;Race and Income Boxplot&amp;#39;) + #Title of the plot
+  ylab(&amp;quot;Family Income $&amp;quot;) + xlab(&amp;quot;Race&amp;quot;)+ #Labels for the axis
+  theme(plot.title = element_text(hjust = 0.5)) #Centering the title&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/GSS-Data-Project_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This boxplot displays the distribution of income by race. This has profuond insights, such as the fact that Black people have the lowest mean income, with “other” having the middle average, and White people having the highest income.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;graphing-race-age-and-tv-hours&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Graphing Race, Age, and TV Hours&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gss_cat %&amp;gt;%
+  group_by(race, age) %&amp;gt;%
+  summarise(meantv=mean(tvhours, na.rm = T)) %&amp;gt;% 
+  #Using dplyr to create a mean TV hours variable and summarise it by race and age
+  ggplot(aes(x=age, y=meantv,color=race))+ #GGplot x-axis is age, y-axis is Mean TV Hours, and Color is race
+  geom_point() + #Speceifying a scatterplot
+  geom_smooth(method = &amp;quot;lm&amp;quot;)+ #Affs a trend line on the plot
+  ylab(&amp;quot;Hours of TV per Week&amp;quot;) + xlab(&amp;quot;Age&amp;quot;)+ #Labels for the axis
+  ggtitle(&amp;quot;Age, Hours of TV, and Race Scatterplot&amp;quot;)+ #Title of the plot
+  theme(plot.title = element_text(hjust = 0.5)) #Centering the title&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/GSS-Data-Project_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The graph shows that for White, Black, and other races the hours of TV watched per week rises as that population gets older. The three seperate trend lines also reveal racial differences. Whites and others watch similiar amounts of TV especially as they get older, Black people watched signifcantly more TV on average than the other races.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;graphing-race-and-political-party&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Graphing Race and Political Party&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;GSS$partyid&amp;lt;-ifelse(GSS$partyid == &amp;quot;Strong republican&amp;quot;, &amp;quot;Republican&amp;quot;,ifelse(GSS$partyid == &amp;quot;Not str republican&amp;quot;, &amp;quot;Republican&amp;quot;, ifelse(GSS$partyid == &amp;quot;Ind, near rep&amp;quot;, &amp;quot;Republican&amp;quot;, ifelse(GSS$partyid == &amp;quot;Ind, near dem&amp;quot;, &amp;quot;Democrat&amp;quot;, ifelse(GSS$partyid == &amp;quot;Not str democrat&amp;quot;, &amp;quot;Democrat&amp;quot;,ifelse(GSS$partyid == &amp;quot;Strong Democrat&amp;quot;, &amp;quot;Democrat&amp;quot;, &amp;quot;Independent&amp;quot; )))))) #Using an ifelse ladder to combine political party identification into Democrat, Repubican, Independent
+
+
+ggplot(GSS, aes(partyid, fill = race)) + #Selecting political party as variable and race as group value
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+  #This line tilts the axis names so they are readable
+  geom_bar(position = &amp;quot;dodge&amp;quot;)+ #This splits the bar chart by race instead of stacking the bars
+  geom_text(aes(label=..count..),stat=&amp;quot;count&amp;quot;,position=position_dodge(width=0.9), vjust=-0.25)+ #Adds labels to each bar
+   ylab(&amp;quot;Count&amp;quot;) + xlab(&amp;quot;Political Party&amp;quot;)+ #Labels for the axis
+  ggtitle(&amp;quot;Race and Political Party Bar Chart&amp;quot;)+ #Title of the plot
+  theme(plot.title = element_text(hjust = 0.5)) #Centering the title&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/GSS-Data-Project_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This graph reveals that Democrats are the most racially diverse political group, while Independent is the most popular political category.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;analysis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Analysis&lt;/h2&gt;
+&lt;div id=&#34;income&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Income&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mean_inc &amp;lt;- aggregate(coninc~race, data=GSS, mean) #Use aggregate function to take mean of family income for each race
+print(mean_inc)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    race   coninc
+## 1 Black 28445.62
+## 2 Other 38010.33
+## 3 White 47727.90&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This information shows that the mean income for the White race is 1.7 times more than the mean income for the Black race, clearly there is a racial income disparity in the United States.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;tv-hours&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;TV Hours&lt;/h3&gt;
+&lt;p&gt;One of the most evident correlations was between TV Hours and Age. This relationship can further be explored by running a regression on the two variables.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tvhours_reg&amp;lt;-lm(tvhours~age + coninc, data=GSS) #Running a linear regression on TV hours and Age
+print(tvhours_reg) #Pritning results of the regression&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = tvhours ~ age + coninc, data = GSS)
+## 
+## Coefficients:
+## (Intercept)          age       coninc  
+##   1.647e+00    4.067e-02   -1.371e-05&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(tvhours_reg) #Summarising the regression&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = tvhours ~ age + coninc, data = GSS)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.9414 -1.4945 -0.5185  0.8314 20.3600 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)  1.647e+00  1.929e-01   8.541   &amp;lt;2e-16 ***
+## age          4.067e-02  3.485e-03  11.669   &amp;lt;2e-16 ***
+## coninc      -1.371e-05  1.480e-06  -9.267   &amp;lt;2e-16 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 2.665 on 1858 degrees of freedom
+##   (1006 observations deleted due to missingness)
+## Multiple R-squared:  0.1079, Adjusted R-squared:  0.1069 
+## F-statistic: 112.3 on 2 and 1858 DF,  p-value: &amp;lt; 2.2e-16&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mean_tv &amp;lt;- aggregate(tvhours~race, data=GSS, mean) #Use Aggregate to find mean TV Hours per Race
+print(mean_tv)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    race  tvhours
+## 1 Black 4.046875
+## 2 Other 2.697297
+## 3 White 2.840348&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The regression allows us to see the relationship between age and hours of TV one watches. The regression shows that an increase in age by 1 year results in a 0.04 increase in the hours of TV someone watches. An increase in income by 1,000 is associated with 0.015 decrease in the amount of TV one watches. However; the R-squared value shows that these variables only explain 10% of the data observations. From this data we can also compare the mean hours of TV each race watches.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;inferences&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Inferences&lt;/h2&gt;
+&lt;p&gt;From the social survey data one can analyze racial differences within the United States. A boxplot was used to compare the Family Income averages across races. This revealed that black people have the lowest average wages and speaks to a larger culture of income inequality within the United States. These economic differences effected the racial makeup of America’s political parties. Democrats were the most racially diverse, while Independent was the most popular. After looking at economic and political differences we anlayzed the niche cultural difference of hours of TV watched. Across all races hours of TV increased with age but when split by race it was clear that blakc people watch more TV than the other races. This anlaysis helps understand how one’s race is likely to correlate with economic, political, and cultural differences in the United States.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Exploratory Data Analysis</title>
+      <link>/post/eda-project/</link>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/eda-project/</guid>
+      <description>
+
+
+&lt;div id=&#34;colin-cozad&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Colin Cozad&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;exploratory-data-analysis-project-with-the-diamonds-datasets&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Exploratory Data Analysis Project with the Diamonds Datasets&lt;/h1&gt;
+&lt;div id=&#34;plotting-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Plotting the Data&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data(&amp;#39;diamonds&amp;#39;) #Loading the dataset
+
+summary(diamonds) #Looking at the summary of the dataset&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##      carat               cut        color        clarity     
+##  Min.   :0.2000   Fair     : 1610   D: 6775   SI1    :13065  
+##  1st Qu.:0.4000   Good     : 4906   E: 9797   VS2    :12258  
+##  Median :0.7000   Very Good:12082   F: 9542   SI2    : 9194  
+##  Mean   :0.7979   Premium  :13791   G:11292   VS1    : 8171  
+##  3rd Qu.:1.0400   Ideal    :21551   H: 8304   VVS2   : 5066  
+##  Max.   :5.0100                     I: 5422   VVS1   : 3655  
+##                                     J: 2808   (Other): 2531  
+##      depth           table           price             x         
+##  Min.   :43.00   Min.   :43.00   Min.   :  326   Min.   : 0.000  
+##  1st Qu.:61.00   1st Qu.:56.00   1st Qu.:  950   1st Qu.: 4.710  
+##  Median :61.80   Median :57.00   Median : 2401   Median : 5.700  
+##  Mean   :61.75   Mean   :57.46   Mean   : 3933   Mean   : 5.731  
+##  3rd Qu.:62.50   3rd Qu.:59.00   3rd Qu.: 5324   3rd Qu.: 6.540  
+##  Max.   :79.00   Max.   :95.00   Max.   :18823   Max.   :10.740  
+##                                                                  
+##        y                z         
+##  Min.   : 0.000   Min.   : 0.000  
+##  1st Qu.: 4.720   1st Qu.: 2.910  
+##  Median : 5.710   Median : 3.530  
+##  Mean   : 5.735   Mean   : 3.539  
+##  3rd Qu.: 6.540   3rd Qu.: 4.040  
+##  Max.   :58.900   Max.   :31.800  
+## &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;From the summary I notice that this dataset features different variables about diamonds. I notice that there is a numeric “price” variable and a categorical “cut”&amp;quot; variable. I wonder if there is a relationship between the price of the diamond and the cut, and if the cut can be used to predict price?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(diamonds, aes(x=cut, y = price))+
+  geom_boxplot()+
+  ggtitle(&amp;quot;Comparing Diamond Cut and Price&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/EDA-Project_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;I decided to do a boxplot that measures the price statstics for each cut. The results were unexpected, fair diamonds had the highest average price while ideal had the lowest. There seems to be a lot of outliers in this visualization.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(diamonds, aes(x=price))+
+  geom_histogram()+
+  ggtitle(&amp;quot;Diamond Price Histogram&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/EDA-Project_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;I decided to make a histogram of diamond price to get a better understanding of the first boxplot. This histogram has a strong right skew, meaning that the vast majority of diamonds are sold on the lower end of the price range.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data = diamonds, aes(x = price)) +
+  geom_histogram() +
+  facet_wrap(~ cut)+
+  ggtitle(&amp;quot;Diamond Price Histograms by Cut&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/EDA-Project_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;I decided to recreate the same histogram but this time facetting the plot by cut. This histogram helps to explain the unexpected results in the first boxplot. The reason why fair diamonds have the highest average price while ideal diamonds have the lowest has to do with quantity. There are far more ideal diamonds than fair. This also explains the large number of outliers in the boxplot. The cut of the diamond cannot be used to predict price. Perhaps the carat would have a better linear relationship with price? To explore this I will create a scatterplot of the carat and price.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(diamonds, aes(x= carat,y = price))+
+  geom_point()+
+  geom_smooth(color= &amp;quot;red&amp;quot;, se=FALSE)+
+  ggtitle(&amp;quot;Diamond Carat and Price Scatter Plot&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/EDA-Project_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;While there are still many outliers there is a stronger linear relationship between carat and price than cut and price.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;results&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Results&lt;/h2&gt;
+&lt;p&gt;The diamonds dataset contains information about the price and quality of diamonds. The data shows that the price of diamonds is not correlated with the cut of the diamond. After looking at a histogram it is apparent that this is due to skew in the frequency of the diamonds by cut. There are significantly more Premium and Ideal diamonds than Fair and Good. This is an interesting result that one would not expect. It turns out that the carat of the diamond is a better predictor of price. As the carat goes up so does the price. However; there are not many diamonds that are over three carats in the data. Anyone familiar with diamonds would expect a higher carat to be associated with a higher quality and price, this data supports this expectation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>External Project</title>
+      <link>/project/external-project/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 -0400</pubDate>
+      
+      <guid>/project/external-project/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Internal Project</title>
+      <link>/project/internal-project/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 -0400</pubDate>
+      
+      <guid>/project/internal-project/</guid>
+      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
+
+&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
+
+&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
+
+&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
+
+&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A Person Re-Identification System For Mobile Devices</title>
+      <link>/publication/person-re-id/</link>
+      <pubDate>Tue, 01 Sep 2015 00:00:00 -0400</pubDate>
+      
+      <guid>/publication/person-re-id/</guid>
+      <description>&lt;p&gt;More detail can easily be written here using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Mobile visual clothing search</title>
+      <link>/publication/clothing-search/</link>
+      <pubDate>Mon, 01 Jul 2013 00:00:00 -0400</pubDate>
+      
+      <guid>/publication/clothing-search/</guid>
+      <description>&lt;p&gt;More detail can easily be written here using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

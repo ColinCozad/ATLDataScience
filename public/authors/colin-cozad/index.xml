@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Colin Cozad on E&amp;C Data Science Blog</title>
+    <link>/authors/colin-cozad/</link>
+    <description>Recent content in Colin Cozad on E&amp;C Data Science Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/authors/colin-cozad/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>/author/admin/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/author/admin/</guid>
+      <description>I am an undergraduate student at Emory University. Data Analytics is my passion; I built this blog to highlight the work I am doing as a Data Analyst. I am interested in Econometrics, Data Privacy, and financial markets. I enjoy spending time in nature when I&amp;rsquo;m not behind a computer screen. This site is maintained through the Rstats package &amp;ldquo;Blogdown&amp;rdquo; and was built by me using Hugo and Netlify.</description>
+    </item>
+    
+  </channel>
+</rss>

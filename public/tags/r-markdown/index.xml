@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R Markdown on E&amp;C Data Science Blog</title>
+    <link>/tags/r-markdown/</link>
+    <description>Recent content in R Markdown on E&amp;C Data Science Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/r-markdown/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>US Demographics with the GSS Dataset</title>
+      <link>/post/gss-data-project/</link>
+      <pubDate>Tue, 04 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/gss-data-project/</guid>
+      <description>Introduction Research Idea For this project I will research the racial differences and disparities in American economics, politics, and culture. I will use statistical analysis to look for correlations in these differences. The independent variable will be race and the dependent variables will be family income, political party, and average amount of TV somebody watches.
+ The GSS Dataset The dataset is from the General Social Survey (GSS). It is a national survey conducted by NORC at the University of Chicago, to gather data on the complexity of American life.</description>
+    </item>
+    
+    <item>
+      <title>Exploratory Data Analysis</title>
+      <link>/post/eda-project/</link>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/eda-project/</guid>
+      <description>Colin Cozad  Exploratory Data Analysis Project with the Diamonds Datasets Plotting the Data data(&amp;#39;diamonds&amp;#39;) #Loading the dataset summary(diamonds) #Looking at the summary of the dataset ## carat cut color clarity ## Min. :0.2000 Fair : 1610 D: 6775 SI1 :13065 ## 1st Qu.:0.4000 Good : 4906 E: 9797 VS2 :12258 ## Median :0.7000 Very Good:12082 F: 9542 SI2 : 9194 ## Mean :0.7979 Premium :13791 G:11292 VS1 : 8171 ## 3rd Qu.</description>
+    </item>
+    
+  </channel>
+</rss>

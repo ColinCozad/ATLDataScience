@@ -1,0 +1,67 @@
+---
+title: "Exploratory Data Analysis"
+author: "Colin Cozad"
+date: 2018-10-04
+categories: ["Colin Cozad"]
+tags: ["R Markdown", "ggplot2","tidyverse"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(gapminder)
+library(dplyr)
+library(ggplot2)
+```
+
+### Colin Cozad
+
+#Exploratory Data Analysis Project with the Diamonds Datasets
+
+## Plotting the Data
+
+```{r warning = FALSE, error = FALSE, message=FALSE}
+data('diamonds') #Loading the dataset
+
+summary(diamonds) #Looking at the summary of the dataset
+```
+
+From the summary I notice that this dataset features different variables about diamonds. I notice that there is a numeric "price" variable and a categorical "cut"" variable. I wonder if there is a relationship between the price of the diamond and the cut, and if the cut can be used to predict price? 
+
+```{r warning = FALSE, error = FALSE, message=FALSE}
+ggplot(diamonds, aes(x=cut, y = price))+
+  geom_boxplot()+
+  ggtitle("Comparing Diamond Cut and Price")
+```
+
+I decided to do a boxplot that measures the price statstics for each cut. The results were unexpected, fair diamonds had the highest average price while ideal had the lowest. There seems to be a lot of outliers in this visualization. 
+
+```{r warning = FALSE, error = FALSE, message=FALSE}
+ggplot(diamonds, aes(x=price))+
+  geom_histogram()+
+  ggtitle("Diamond Price Histogram")
+```
+
+I decided to make a histogram of diamond price to get a better understanding of the first boxplot. This histogram has a strong right skew, meaning that the vast majority of diamonds are sold on the lower end of the price range. 
+
+```{r warning = FALSE, error = FALSE, message=FALSE}
+ggplot(data = diamonds, aes(x = price)) +
+  geom_histogram() +
+  facet_wrap(~ cut)+
+  ggtitle("Diamond Price Histograms by Cut")
+```
+
+I decided to recreate the same histogram but this time facetting the plot by cut. This histogram helps to explain the unexpected results in the first boxplot. The reason why fair diamonds have the highest average price while ideal diamonds have the lowest has to do with quantity. There are far more ideal diamonds than fair. This also explains the large number of outliers in the boxplot. The cut of the diamond cannot be used to predict price. Perhaps the carat would have a better linear relationship with price? To explore this I will create a scatterplot of the carat and price. 
+
+```{r warning = FALSE, error = FALSE, message=FALSE}
+ggplot(diamonds, aes(x= carat,y = price))+
+  geom_point()+
+  geom_smooth(color= "red", se=FALSE)+
+  ggtitle("Diamond Carat and Price Scatter Plot")
+```
+
+While there are still many outliers there is a stronger linear relationship between carat and price than cut and price.
+
+## Results
+
+The diamonds dataset contains information about the price and quality of diamonds. The data shows that the price of diamonds is not correlated with the cut of the diamond. After looking at a histogram it is apparent that this is due to skew in the frequency of the diamonds by cut. There are significantly more Premium and Ideal diamonds than Fair and Good. This is an interesting result that one would not expect. It turns out that the carat of the diamond is a better predictor of price. As the carat goes up so does the price. However; there are not many diamonds that are over three carats in the data. Anyone familiar with diamonds would expect a higher carat to be associated with a higher quality and price, this data supports this expectation.

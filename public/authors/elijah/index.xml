@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>elijah on E&amp;C Data Science Blog</title>
+    <link>/authors/elijah/</link>
+    <description>Recent content in elijah on E&amp;C Data Science Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/authors/elijah/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>/author/elijah/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/author/elijah/</guid>
+      <description>Elijah is an undergraduate student from Atlanta, Georgia. After spending his freshman year at Boston University, Elijah returned to his home town of Atlanta with the goal of empowering his fellow Atlanta natives and community members. In the Fall of 2017 and Spring 2018 Elijah was a mentorship director for Project GRIND, a mentorship program for black youth in southwest Atlanta. In the fall of 2018 he started the Social Entrepreneurship Club at GSU to help students in their entrepreneurial pursuits and find ways for business to create positive social impact.</description>
+    </item>
+    
+  </channel>
+</rss>
