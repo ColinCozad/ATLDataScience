@@ -48,4 +48,4 @@ user_groups:
 - Researchers
 - Visitors
 ---
-Testing. I am an undergraduate student at Emory University. Data Analytics is my passion, I am interested in Econometrics, Data Privacy, and financial markets. I enjoy spending time in nature when I'm not behind a computer screen. This site is maintained through the Rstats package "Blogdown" and was built by me using Hugo and Netlify.
+I am an undergraduate student at Emory University. Data Analytics is my passion, I am interested in Econometrics, Data Privacy, and financial markets. I enjoy spending time in nature when I'm not behind a computer screen. This site is maintained through the Rstats package "Blogdown" and was built by me using Hugo and Netlify.
