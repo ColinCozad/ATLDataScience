@@ -1,6 +1,6 @@
 ---
 title: "Do you want to play a game?"
-author: "Colin Cozad, Elijah Sullivan" 
+author: ["elijah","admin"] 
 date: '2019-03-16'
 image:
   caption: ''
@@ -13,6 +13,7 @@ tags:
 categories:
 - Colin Cozad
 - Elijah Sullivan
+profile: FALSE
 ---
 
 ```{r setup, include=FALSE}

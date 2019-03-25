@@ -1,6 +1,6 @@
 ---
 title: "Exploring US Demographics with data from the General Social Survey"
-author: "Colin Cozad"
+authors: ["admin"]
 date: '2018-12-04'
 categories: ["Colin Cozad"]
 tags: ["R Markdown", "ggplot2","tidyverse","Regression"]

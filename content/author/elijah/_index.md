@@ -1,9 +1,10 @@
 ---
 name: "Elijah Sullivan"
 authors: ["elijah"]
-superuser: true
+superuser: false
 
-bio: Test Bio
+bio: Elijah is an undergraduate student from Atlanta, Georgia. After spending his freshman year at Boston University, Elijah returned to his home town of Atlanta with the goal of empowering his fellow Atlanta natives and community members. In the Fall of 2017 and Spring 2018 Elijah was a mentorship director for Project GRIND, a mentorship program for black youth in southwest Atlanta. In the fall of 2018 he started the Social Entrepreneurship Club at GSU to help students in their entrepreneurial pursuits and find ways for business to create positive social impact. Elijah is interested in using data and technology to create equitable digital communities. He is currently developing a platform for non-profit project management, collaboration and fundraising. He spends his free time monitoring financial markets, meditating, and spending time in nature.
+
 education:
  # courses:
  # - course: PhD in Artificial Intelligence

@@ -1,6 +1,6 @@
 ---
 title: "Exploratory Data Analysis with Diamonds"
-author: "Colin Cozad"
+authors: ["admin"]
 date: 2018-10-04
 categories: ["Colin Cozad"]
 tags: ["R Markdown", "ggplot2","tidyverse"]

@@ -1,7 +1,7 @@
 ---
 name: "Colin Cozad"
 authors: ["admin"]
-superuser: true
+superuser: false
 
 bio: I am an undergraduate student at Emory University. Data Analytics is my passion and I built this blog to highlight the work I am doing as a Data Analyst. I am interested in Econometrics, Data Privacy, and financial markets. I enjoy spending time in nature when I'm not behind a computer screen. 
 education:
