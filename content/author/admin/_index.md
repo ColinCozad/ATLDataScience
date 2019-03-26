@@ -3,7 +3,8 @@ name: "Colin Cozad"
 authors: ["admin"]
 superuser: false
 
-bio: I am an undergraduate student at Emory University. Data Analytics is my passion and I built this blog to highlight the work I am doing as a Data Analyst. I am interested in Econometrics, Data Privacy, and financial markets. I enjoy spending time in nature when I'm not behind a computer screen. 
+bio: I am an undergraduate student at Emory University. I am currently a Technology Consultant at Emory's Cox Computing Center. Data Analytics is my passion, and R programming is my bread and butter. I am interested in Econometrics, Data Privacy, and Business Intelligence. I believe we are in the midst of a data revolution that will define our future, meaning that we have the responsibility to shape what that future looks like through responsible data practices. When I'm not behind a computer screen, I enjoy spending time in nature and taking care of my plants. This site is maintained through the Rstats package "Blogdown" and is open-sourced on our [Github Repository](https://github.com/ColinCozad/ATLDataScience) page.  
+
 education:
  # courses:
  # - course: PhD in Artificial Intelligence
@@ -41,11 +42,11 @@ social:
   link: https://www.linkedin.com/in/colincozad
 - icon: cv
   icon_pack: ai
-  link: static/files/cv.pdf
+  link: static/files/ccresume.pdf
 
 
 user_groups:
 - Researchers
 - Visitors
 ---
-I am an undergraduate student at Emory University. Data Analytics is my passion, I am interested in Econometrics, Data Privacy, and financial markets. I enjoy spending time in nature when I'm not behind a computer screen. This site is maintained through the Rstats package "Blogdown" and was built by me using Hugo and Netlify.
+I am an undergraduate student at Emory University. I am currently a Technology Consultant at Emory's Cox Computing Center. Data Analytics is my passion, and R programming is my bread and butter. I am interested in Econometrics, Data Privacy, and Business Intelligence. I believe we are in the midst of a data revolution that will define our future, meaning that we have the responsibility to shape what that future looks like through responsible data practices. When I'm not behind a computer screen, I enjoy spending time in nature and taking care of my plants. This site is maintained through the Rstats package "Blogdown" and is open-sourced on our [Github Repository](https://github.com/ColinCozad/ATLDataScience) page.  
