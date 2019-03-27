@@ -19,13 +19,10 @@
       <description>
 
 
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;For our first joint blog post we decided to look at this week’s #TidyTuesday dataset. Tidy Tuesday is a weekly data project aimed at the R for Data Science community. Every week a raw dataset is posted so that users can apply their R skills, get feedbak, explore other’s work, and connect with the greater #RStats community.&lt;/p&gt;
 &lt;p&gt;This week’s data is about Board Games! The data comes from the &lt;a href=&#34;https://boardgamegeek.com/&#34;&gt;Board Game Geek&lt;/a&gt; database.&lt;/p&gt;
 &lt;p&gt;The first step is to download the dataset from the &lt;a href=&#34;https://github.com/rfordatascience/tidytuesday&#34;&gt;TidyTuesday Repository&lt;/a&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;board_games &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-03-12/board_games.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;div id=&#34;building-a-linear-model&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Building a Linear Model&lt;/h2&gt;
 &lt;p&gt;For this dataset we want to see if we can build a model to predict how sucessful a game’s rating might be. We begin by looking at the distribution of the average rating variable.&lt;/p&gt;
@@ -96,10 +93,8 @@ summary(reg1)&lt;/code&gt;&lt;/pre&gt;
       <description>
 
 
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;div id=&#34;research-idea&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Research Idea&lt;/h3&gt;
+&lt;div id=&#34;research-proposal&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Research Proposal&lt;/h3&gt;
 &lt;p&gt;For this project I will research the racial differences and disparities in American economics, politics, and culture. I will use statistical analysis to look for correlations in these differences. The independent variable will be race and the dependent variables will be family income, political party, and average amount of TV somebody watches.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-gss-dataset&#34; class=&#34;section level3&#34;&gt;
@@ -209,7 +204,6 @@ str(GSS)&lt;/code&gt;&lt;/pre&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;graphs&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Graphs&lt;/h2&gt;
@@ -326,8 +320,6 @@ print(mean_tv)&lt;/code&gt;&lt;/pre&gt;
       <description>
 
 
-&lt;div id=&#34;exploratory-data-analysis-with-the-diamonds-dataset&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Exploratory Data Analysis with the Diamonds Dataset&lt;/h1&gt;
 &lt;p&gt;For this post I decided to walk through the steps of exploratory data analysis using the diamonds dataset that come with base R.&lt;/p&gt;
 &lt;div id=&#34;plotting-the-data&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Plotting the Data&lt;/h2&gt;
@@ -385,7 +377,6 @@ summary(diamonds) #Looking at the summary of the dataset&lt;/code&gt;&lt;/pre&gt
 &lt;div id=&#34;results&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Results&lt;/h2&gt;
 &lt;p&gt;The diamonds dataset contains information about the price and quality of diamonds. The data shows that the price of diamonds is not correlated with the cut of the diamond. After looking at a histogram it is apparent that this is due to skew in the frequency of the diamonds by cut. There are significantly more Premium and Ideal diamonds than Fair and Good. This is an interesting result that one would not expect. It turns out that the carat of the diamond is a better predictor of price. As the carat goes up so does the price. However; there are not many diamonds that are over three carats in the data. Anyone familiar with diamonds would expect a higher carat to be associated with a higher quality and price, this data supports this expectation.&lt;/p&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 </description>
     </item>

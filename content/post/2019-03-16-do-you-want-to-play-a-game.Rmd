@@ -22,7 +22,6 @@ library(tidyverse)
 theme_set(theme_light())
 ```
 
-##Introduction
 For our first joint blog post we decided to look at this week's #TidyTuesday dataset. Tidy Tuesday is a weekly data project aimed at the R for Data Science community. Every week a raw dataset is posted so that users can apply their R skills, get feedbak, explore other's work, and connect with the greater #RStats community.
 
 This week's data is about Board Games! The data comes from the [Board Game Geek](https://boardgamegeek.com/) database. 

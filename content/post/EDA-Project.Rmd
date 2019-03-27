@@ -14,8 +14,6 @@ library(dplyr)
 library(ggplot2)
 ```
 
-#Exploratory Data Analysis with the Diamonds Dataset
-
 For this post I decided to walk through the steps of exploratory data analysis using the diamonds dataset that come with base R.
 
 ## Plotting the Data

@@ -3,7 +3,7 @@ title: "Exploring US Demographics with data from the General Social Survey"
 authors: ["admin"]
 date: '2018-12-04'
 categories: ["Colin Cozad"]
-tags: ["R Markdown", "ggplot2","tidyverse","Regression"]
+tags: ["ggplot","tidyverse","Regression"]
 ---
 
 ```{r setup, include=FALSE}
@@ -17,9 +17,7 @@ library(knitr)
 ```
 
 
-##Introduction
-
-###Research Idea
+###Research Proposal
 
 For this project I will research the racial differences and disparities in American economics, politics, and culture. I will use statistical analysis to look for correlations in these differences. The independent variable will be race and the dependent variables will be family income, political party, and average amount of TV somebody watches. 
 

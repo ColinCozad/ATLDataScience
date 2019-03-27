@@ -18,13 +18,10 @@ profile: FALSE
 
 
 
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
 <p>For our first joint blog post we decided to look at this week’s #TidyTuesday dataset. Tidy Tuesday is a weekly data project aimed at the R for Data Science community. Every week a raw dataset is posted so that users can apply their R skills, get feedbak, explore other’s work, and connect with the greater #RStats community.</p>
 <p>This week’s data is about Board Games! The data comes from the <a href="https://boardgamegeek.com/">Board Game Geek</a> database.</p>
 <p>The first step is to download the dataset from the <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday Repository</a>.</p>
 <pre class="r"><code>board_games &lt;- readr::read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-03-12/board_games.csv&quot;)</code></pre>
-</div>
 <div id="building-a-linear-model" class="section level2">
 <h2>Building a Linear Model</h2>
 <p>For this dataset we want to see if we can build a model to predict how sucessful a game’s rating might be. We begin by looking at the distribution of the average rating variable.</p>
