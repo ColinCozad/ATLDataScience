@@ -42,7 +42,7 @@ social:
   link: https://www.linkedin.com/in/colincozad
 - icon: cv
   icon_pack: ai
-  link: static/files/ccresume.pdf
+  link: https://drive.google.com/file/d/1vzLTHs5j7hk0PcRlLzmiQ9OeWWqxHyXG/view?usp=sharing
 
 
 user_groups:
