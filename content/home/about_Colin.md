@@ -1,6 +1,6 @@
 ---
 active: true
-author: "admin"
+author: "colin"
 title: Biography
 weight: 4
 widget: about

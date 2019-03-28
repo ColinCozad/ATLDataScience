@@ -1,6 +1,6 @@
 ---
 title: "Do you want to play a game?"
-author: ["elijah","admin"] 
+author: ["elijah","colin"] 
 date: '2019-03-16'
 image:
   caption: ''

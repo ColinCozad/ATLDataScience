@@ -1,6 +1,6 @@
 ---
 name: "Colin Cozad"
-authors: ["admin"]
+authors: ["colin"]
 superuser: false
 
 bio: I am an undergraduate student at Emory University. I am currently a Technology Consultant at Emory's Cox Computing Center. Data Analytics is my passion, and R programming is my bread and butter. I am interested in Econometrics, Data Privacy, and Business Intelligence. I believe we are in the midst of a data revolution that will define our future, meaning that we have the responsibility to shape what that future looks like through responsible data practices. When I'm not behind a computer screen, I enjoy spending time in nature and taking care of my plants. This site is maintained through the Rstats package "Blogdown" and is open-sourced on our [Github Repository](https://github.com/ColinCozad/ATLDataScience) page.  
