@@ -36,6 +36,9 @@ social:
 - icon: linkedin
   icon_pack: fab
   link: https://www.linkedin.com/in/elijah-sullivan-04bb80164
+- icon: cv
+  icon_pack: ai
+  link: https://docs.google.com/document/d/1nF8Q8xyHrRs1CpaKhvnM4Do8o9tSx2d-yB5IMjTexL4/edit?usp=sharing
 superuser: true
 user_groups:
 - Researchers

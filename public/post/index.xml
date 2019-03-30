@@ -28,8 +28,8 @@ This week’s data is about Board Games! The data comes from the Board Game Geek
       <pubDate>Tue, 04 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/gss-data-project/</guid>
-      <description>Research Proposal For this project I will research the racial differences and disparities in American economics, politics, and culture. I will use statistical analysis to look for correlations in these differences. The independent variable will be race and the dependent variables will be family income, political party, and average amount of TV somebody watches.
- The GSS Dataset The dataset is from the General Social Survey (GSS). It is a national survey conducted by NORC at the University of Chicago, to gather data on the complexity of American life.</description>
+      <description>Research ProposalFor this project I will research the racial differences and disparities in American economics, politics, and culture. I will use statistical analysis to look for correlations in these differences. The independent variable will be race and the dependent variables will be family income, political party, and average amount of TV somebody watches.
+The GSS DatasetThe dataset is from the General Social Survey (GSS). It is a national survey conducted by NORC at the University of Chicago, to gather data on the complexity of American life.</description>
     </item>
     
     <item>
@@ -39,7 +39,7 @@ This week’s data is about Board Games! The data comes from the Board Game Geek
       
       <guid>/post/eda-project/</guid>
       <description>For this post I decided to walk through the steps of exploratory data analysis using the diamonds dataset that come with base R.
-Plotting the Data data(&amp;#39;diamonds&amp;#39;) #Loading the dataset summary(diamonds) #Looking at the summary of the dataset ## carat cut color clarity ## Min. :0.2000 Fair : 1610 D: 6775 SI1 :13065 ## 1st Qu.:0.4000 Good : 4906 E: 9797 VS2 :12258 ## Median :0.7000 Very Good:12082 F: 9542 SI2 : 9194 ## Mean :0.</description>
+Plotting the Datadata(&amp;#39;diamonds&amp;#39;) #Loading the datasetsummary(diamonds) #Looking at the summary of the dataset## carat cut color clarity ## Min. :0.2000 Fair : 1610 D: 6775 SI1 :13065 ## 1st Qu.:0.4000 Good : 4906 E: 9797 VS2 :12258 ## Median :0.7000 Very Good:12082 F: 9542 SI2 : 9194 ## Mean :0.</description>
     </item>
     
   </channel>
